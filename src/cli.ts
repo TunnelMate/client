@@ -1,4 +1,5 @@
 import { Command, Option } from "commander";
+import PassageWay from "./pw";
 import consts from "./consts";
 
 const program = new Command();
@@ -11,7 +12,7 @@ const main = (): void => {
     program.parse(process.argv);
     const options = program.opts();
 
-    
+    const pw = new PassageWay(options);
 
 }
 
