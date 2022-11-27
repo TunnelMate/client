@@ -1,8 +1,10 @@
 import { Command, Option } from "commander";
+
 import PassageWay from "./pw";
 import consts from "./consts";
-import { APIResponse } from "./interface";
+import { APIResponse, StatsInfo } from "./interface";
 import { CAN_DEBUG } from "./logger";
+import showStats from "./stats";
 
 const program = new Command();
 program
@@ -23,7 +25,9 @@ const main = (): void => {
 
     const pw = new PassageWay(options);
     pw.getNewClient((response: APIResponse) => {
-        pw.connect(response);
+        pw.connect(response, (stats: StatsInfo) => {
+            showStats(stats);
+        });
     })
 }
 

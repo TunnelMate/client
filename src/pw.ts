@@ -6,12 +6,14 @@ import tls from "tls";
 import axios from "axios";
 
 import consts from "./consts";
-import { APIResponse } from "./interface";
 import logger from "./logger";
+
+import { APIResponse, StatsInfo } from "./interface";
 import { HeaderHostTransformer } from "./transformer";
 
 export default class PassageWay extends EventEmitter {
     private options: OptionValues;
+
     constructor(p_options: OptionValues) {
         super();
         this.options = p_options;
@@ -43,11 +45,12 @@ export default class PassageWay extends EventEmitter {
             });
     }
 
-    public connect(response: APIResponse) {
+    public connect(response: APIResponse, cb: (stats: StatsInfo) => void) {
         const remote = net.connect(response.port, this.options.host, () => {});
         const scheme = this.options.secure ? "https" : "http";
         const allowInvalidCert = false; // TODO
 
+        const url = `${scheme}://${this.options.host}:${consts.SERVER_PORT}`;
 
         remote.setKeepAlive(true);
 
@@ -68,11 +71,10 @@ export default class PassageWay extends EventEmitter {
         const connLocal = () => {
             if (remote.destroyed) {
                 logger.debug("remote destroyed");
-                this.emit("dead");
                 return;
             }
 
-            logger.debug(`connecting locally to ${scheme}://${this.options.host}:${consts.SERVER_PORT}`);
+            logger.debug(`connecting locally to ${url}`);
             remote.pause();
 
             if (allowInvalidCert) {
@@ -89,7 +91,6 @@ export default class PassageWay extends EventEmitter {
 
             const remoteClose = () => {
                 logger.debug("remote close");
-                this.emit("dead");
                 local.end();
             };
 
@@ -109,8 +110,8 @@ export default class PassageWay extends EventEmitter {
             });
 
             local.once("connect", () => {
-                logger.debug("connected locally");
-                logger.info(`Connected to ${scheme}://${response.id}.${this.options.host}:${this.options.port}/`)
+                const hostURL = `${scheme}://${response.id}.${this.options.host}:${this.options.port}/`;
+                logger.debug(`Connected to ${hostURL}`)
                 remote.resume();
 
                 let stream: any = remote;
@@ -127,6 +128,9 @@ export default class PassageWay extends EventEmitter {
                 local.once("close", (hadErro: any) => {
                     logger.debug(`local connection closed [${hadErro}]`);
                 });
+
+                cb({ id: response.id, hostURL: hostURL, localURL: url, pw: this });
+
             });
         };
 
