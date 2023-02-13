@@ -13,5 +13,6 @@ export interface StatsInfo {
     localURL: String,
     hostURL: String,
 
-    pw: PassageWay
+    pw: PassageWay,
+    time: number
 }

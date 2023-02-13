@@ -5,6 +5,8 @@ import consts from "./consts";
 import { APIResponse, StatsInfo } from "./interface";
 import { CAN_DEBUG } from "./logger";
 import showStats from "./stats";
+import cliSpinners from "cli-spinners";
+import logUpdate from 'log-update';
 
 const program = new Command();
 program
@@ -23,9 +25,16 @@ const main = (): void => {
     // @ts-ignore
     CAN_DEBUG = options.debbug;
 
+    let i = 0;
+    let spinnerInterval = setInterval(() => {
+        const {frames} = cliSpinners.bouncingBar;
+        console.log(frames[i = ++i % frames.length] + ' Connecting to server');
+    }, cliSpinners.bouncingBar.interval);
+
     const pw = new PassageWay(options);
     pw.getNewClient((response: APIResponse) => {
         pw.connect(response, (stats: StatsInfo) => {
+            clearInterval(spinnerInterval);
             showStats(stats);
         });
     })

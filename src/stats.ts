@@ -1,6 +1,8 @@
 import { StatsInfo } from "./interface";
 import { version } from "../package.json";
 
+import colors from "colors";
+
 import Table from "cli-table";
 
 
@@ -14,9 +16,10 @@ export default (stats: StatsInfo) => {
     });
 
     table.push(
-        ['  Identifier', stats.id],
-        ['  PW version', version],
-        ['  Forwarding', `${stats.hostURL} => ${stats.localURL}`]
+        [`  [${'Identifier'.blue}]`.bold, stats.id.green.bold],
+        [`  [${'PW version'.blue}]`.bold, version.magenta.bold],
+        [`  [${'Conn. time'.blue}]`.bold, `${stats.time}ms`.green.bold],
+        [`  [${'Forwarding'.blue}]`.bold, `${stats.hostURL.yellow.bold} ${'=>'.magenta.bold} ${stats.localURL.green.bold}`]
     );
 
     console.log("")

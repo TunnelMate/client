@@ -46,6 +46,8 @@ export default class PassageWay extends EventEmitter {
     }
 
     public connect(response: APIResponse, cb: (stats: StatsInfo) => void) {
+        var startDate = new Date();
+
         const remote = net.connect(response.port, this.options.host, () => {});
         const scheme = this.options.secure ? "https" : "http";
         const allowInvalidCert = false; // TODO
@@ -129,7 +131,10 @@ export default class PassageWay extends EventEmitter {
                     logger.debug(`local connection closed [${hadErro}]`);
                 });
 
-                cb({ id: response.id, hostURL: hostURL, localURL: url, pw: this });
+                var endDate   = new Date();
+                var seconds = (endDate.getTime() - startDate.getTime());
+
+                cb({ id: response.id, hostURL: hostURL, localURL: url, pw: this, time: seconds });
 
             });
         };
