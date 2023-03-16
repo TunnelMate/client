@@ -1,4 +1,4 @@
-import PassageWay from "./pw"
+import TunnelMate from "./mate"
 
 export interface APIResponse {
     id: String,
@@ -13,6 +13,6 @@ export interface StatsInfo {
     localURL: String,
     hostURL: String,
 
-    pw: PassageWay,
+    pw: TunnelMate,
     time: number
 }

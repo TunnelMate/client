@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
-  "description": "Passageway's client CLI to expose your local server to the world",
+  "description": "TunnelMate - Your local dev, globally connected",
   "main": "dist/index.js",
   "bin": "./dist/cli.js",
   "scripts": {
@@ -14,17 +14,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/passageway-proxy/client.git"
+    "url": "git+https://github.com/TunnelMate/client.git"
   },
   "author": "",
   "license": "SEE LICENSE IN ./LICENSE",
   "bugs": {
-    "url": "https://github.com/passageway-proxy/client/issues"
+    "url": "https://github.com/TunnelMate/client/issues"
   },
   "engines": {
     "node": ">=14.16"
   },
-  "homepage": "https://github.com/passageway-proxy/client#readme",
+  "homepage": "https://github.com/TunnelMate/client#readme",
   "dependencies": {
     "axios": "^1.2.0",
     "cli-spinner": "^0.2.10",

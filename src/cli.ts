@@ -1,6 +1,6 @@
 import { Command, Option } from "commander";
 
-import PassageWay from "./pw";
+import TunnelMate from "./mate";
 import consts from "./consts";
 import { APIResponse, StatsInfo } from "./interface";
 import { CAN_DEBUG } from "./logger";
@@ -31,7 +31,7 @@ const main = (): void => {
         console.log(frames[i = ++i % frames.length] + ' Connecting to server');
     }, cliSpinners.bouncingBar.interval);
 
-    const pw = new PassageWay(options);
+    const pw = new TunnelMate(options);
     pw.getNewClient((response: APIResponse) => {
         pw.connect(response, (stats: StatsInfo) => {
             clearInterval(spinnerInterval);

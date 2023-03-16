@@ -1,2 +1,4 @@
 # client
-Passageway's client CLI to expose your local server to the world
+
+TunnelMate is a secure tool that allows developers to easily expose their local development environment to the internet, providing a seamless way to share their work with the world.
+
