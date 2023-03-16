@@ -1,3 +1,3 @@
-
-export default function (isSecure: boolean)
-    { return isSecure ? 'https' : 'http'; }
+export default function (isSecure: boolean) {
+    return isSecure ? "https" : "http";
+}

@@ -5,7 +5,16 @@ import net from "net";
 import tls from "tls";
 import { StatsInfo } from "../interface";
 
-export default function (response: any, remote: net.Socket, local: net.Socket | tls.TLSSocket, hostURL: string, url: string, localHost: number, cb: (s: StatsInfo) => void, startDate: Date) {
+export default function (
+    response: any,
+    remote: net.Socket,
+    local: net.Socket | tls.TLSSocket,
+    hostURL: string,
+    url: string,
+    localHost: number,
+    cb: (s: StatsInfo) => void,
+    startDate: Date
+) {
     return () => {
         let stream: any = remote;
 
@@ -14,7 +23,9 @@ export default function (response: any, remote: net.Socket, local: net.Socket | 
 
         if (localHost) {
             logger.debug(`transform Host header to ${localHost}`);
-            stream = remote.pipe(new HeaderHostTransformer({ host: localHost }));
+            stream = remote.pipe(
+                new HeaderHostTransformer({ host: localHost })
+            );
         }
 
         stream.pipe(local).pipe(remote);
@@ -32,6 +43,14 @@ export default function (response: any, remote: net.Socket, local: net.Socket | 
         const kilobytesWrite = remote.bytesWritten / 1024;
         const speedW = kilobytesWrite / (elapsedTime / 1000);
 
-        cb({ id: response.id, hostURL: hostURL, localURL: url, pw: this, time: elapsedTime, recieve: speed, transmit: speedW });
+        cb({
+            id: response.id,
+            hostURL: hostURL,
+            localURL: url,
+            pw: this,
+            time: elapsedTime,
+            recieve: speed,
+            transmit: speedW,
+        });
     };
 }

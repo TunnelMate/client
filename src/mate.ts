@@ -85,8 +85,23 @@ export default class TunnelMate extends EventEmitter {
             const remoteClose = handleRemoteClose(local);
 
             remote.once("close", remoteClose);
-            local.once("error", handleLocalError(remote, local, remoteClose, connLocal));
-            local.once("connect", handleLocalConnect(response, remote, local, hostURL, url, this.options.localHost, cb, startDate));
+            local.once(
+                "error",
+                handleLocalError(remote, local, remoteClose, connLocal)
+            );
+            local.once(
+                "connect",
+                handleLocalConnect(
+                    response,
+                    remote,
+                    local,
+                    hostURL,
+                    url,
+                    this.options.localHost,
+                    cb,
+                    startDate
+                )
+            );
         };
 
         remote.on("data", (data) => {
@@ -102,7 +117,7 @@ export default class TunnelMate extends EventEmitter {
         remote.once("connect", () => {
             this.emit("open", remote);
 
-            const d = Buffer.alloc(1024 * 1024, 'a');
+            const d = Buffer.alloc(1024 * 1024, "a");
             remote.write(d);
 
             connLocal();

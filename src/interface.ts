@@ -1,21 +1,21 @@
-import TunnelMate from "./mate"
+import TunnelMate from "./mate";
 
 export interface APIResponse {
-    id: String,
-    port: number,
+    id: String;
+    port: number;
 
-    max_conn_count: number
+    max_conn_count: number;
 }
 
 export interface StatsInfo {
-    id: String,
+    id: String;
 
-    localURL: String,
-    hostURL: String,
+    localURL: String;
+    hostURL: String;
 
-    pw: TunnelMate,
-    time: number,
+    pw: TunnelMate;
+    time: number;
 
-    recieve: number,
-    transmit: number
+    recieve: number;
+    transmit: number;
 }

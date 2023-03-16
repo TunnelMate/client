@@ -1,4 +1,4 @@
-import colors from 'colors';
+import colors from "colors";
 
 export var CAN_DEBUG = false;
 
@@ -8,6 +8,10 @@ export default class {
         public static debug: String = colors.red.bold("debug");
     };
 
-    public static info(msg: String) {console.log(`[${this.prefix.info}]: ${msg}`)}
-    public static debug(msg: String) {if (CAN_DEBUG) console.log(`[${this.prefix.debug}]: ${msg}`)}
-};
+    public static info(msg: String) {
+        console.log(`[${this.prefix.info}]: ${msg}`);
+    }
+    public static debug(msg: String) {
+        if (CAN_DEBUG) console.log(`[${this.prefix.debug}]: ${msg}`);
+    }
+}
