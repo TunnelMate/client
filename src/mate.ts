@@ -46,7 +46,7 @@ export default class TunnelMate extends EventEmitter {
         const scheme = getScheme(this.options.secure);
         const allowInvalidCert = false; // TODO
 
-        const url = `${scheme}://${this.options.host}:${consts.SERVER_PORT}`;
+        const url = `${scheme}://${this.options.host}:${this.options.port}`;
         const hostURL = `${scheme}://${response.id}.${this.options.host}:${this.options.port}/`;
 
         remote.setKeepAlive(true);
@@ -86,7 +86,7 @@ export default class TunnelMate extends EventEmitter {
 
             remote.once("close", remoteClose);
             local.once("error", handleLocalError(remote, local, remoteClose, connLocal));
-            local.once("connect", handleLocalConnect(scheme, response, remote, local, hostURL, url, this.options.localHost, cb, startDate));
+            local.once("connect", handleLocalConnect(response, remote, local, hostURL, url, this.options.localHost, cb, startDate));
         };
 
         remote.on("data", (data) => {
@@ -101,6 +101,10 @@ export default class TunnelMate extends EventEmitter {
 
         remote.once("connect", () => {
             this.emit("open", remote);
+
+            const d = Buffer.alloc(1024 * 1024, 'a');
+            remote.write(d);
+
             connLocal();
         });
     }

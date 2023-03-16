@@ -5,7 +5,7 @@ import net from "net";
 import tls from "tls";
 import { StatsInfo } from "../interface";
 
-export default function (scheme: string, response: any, remote: net.Socket, local: net.Socket | tls.TLSSocket, hostURL: string, url: string, localHost: number, cb: (StatsInfo) => void, startDate: Date) {
+export default function (response: any, remote: net.Socket, local: net.Socket | tls.TLSSocket, hostURL: string, url: string, localHost: number, cb: (s: StatsInfo) => void, startDate: Date) {
     return () => {
         let stream: any = remote;
 
@@ -19,13 +19,19 @@ export default function (scheme: string, response: any, remote: net.Socket, loca
 
         stream.pipe(local).pipe(remote);
 
-        local.once("close", (hadErro: any) => {
+        local.once("close", (hadErro: boolean) => {
             logger.debug(`local connection closed [${hadErro}]`);
         });
 
         var endDate = new Date();
-        var seconds = endDate.getTime() - startDate.getTime();
-    
-        cb({ id: response.id, hostURL: hostURL, localURL: url, pw: this, time: seconds });
+        var elapsedTime = endDate.getTime() - startDate.getTime();
+
+        const kilobytesRead = remote.bytesRead / 1024;
+        const speed = kilobytesRead / (elapsedTime / 1000);
+
+        const kilobytesWrite = remote.bytesWritten / 1024;
+        const speedW = kilobytesWrite / (elapsedTime / 1000);
+
+        cb({ id: response.id, hostURL: hostURL, localURL: url, pw: this, time: elapsedTime, recieve: speed, transmit: speedW });
     };
 }

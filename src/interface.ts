@@ -14,5 +14,8 @@ export interface StatsInfo {
     hostURL: String,
 
     pw: TunnelMate,
-    time: number
+    time: number,
+
+    recieve: number,
+    transmit: number
 }

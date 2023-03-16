@@ -16,10 +16,12 @@ export default (stats: StatsInfo) => {
     });
 
     table.push(
-        [`  [${'Identifier'.blue}]`.bold, stats.id.green.bold],
-        [`  [${'PW version'.blue}]`.bold, version.magenta.bold],
-        [`  [${'Conn. time'.blue}]`.bold, `${stats.time}ms`.green.bold],
-        [`  [${'Forwarding'.blue}]`.bold, `${stats.hostURL.yellow.bold} ${'=>'.magenta.bold} ${stats.localURL.green.bold}`]
+        [`  ${'Public URL:'.blue}`.bold, stats.hostURL.yellow.bold],
+        [`  ${'Local URL:'.blue}`.bold, stats.localURL.green.bold],
+        [""],
+        [`  ${'Tunnel status: '.blue}`.bold, `Live`.green.bold],
+        [`  ${'Bytes received:'.blue}`.bold, `${stats.recieve.toFixed(2)} KB/s`.green.bold],
+        [`  ${'Bytes sent:'.blue}`.bold, `${stats.transmit.toFixed(2)} KB/s`.green.bold],
     );
 
     console.log("")
