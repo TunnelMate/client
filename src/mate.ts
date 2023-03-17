@@ -84,6 +84,7 @@ export default class TunnelMate extends EventEmitter {
 
             const remoteClose = handleRemoteClose(local);
 
+            local.on("data", () => {});
             remote.once("close", remoteClose);
             local.once(
                 "error",

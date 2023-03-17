@@ -28,20 +28,19 @@ export default function (
             );
         }
 
-        stream.pipe(local).pipe(remote);
-
+        // stream.pipe(local).pipe(remote);
         local.once("close", (hadErro: boolean) => {
-            logger.debug(`local connection closed [${hadErro}]`);
+            logger.debug(`local connection closed [had error: ${hadErro}]`);
         });
 
         var endDate = new Date();
         var elapsedTime = endDate.getTime() - startDate.getTime();
 
         const kilobytesRead = remote.bytesRead / 1024;
-        const speed = kilobytesRead / (elapsedTime / 1000);
+        const speed = kilobytesRead / (elapsedTime / 1000) / 1024;
 
         const kilobytesWrite = remote.bytesWritten / 1024;
-        const speedW = kilobytesWrite / (elapsedTime / 1000);
+        const speedW = kilobytesWrite / (elapsedTime / 1000) / 1024;
 
         cb({
             id: response.id,
